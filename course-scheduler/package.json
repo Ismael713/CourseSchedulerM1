@@ -7,12 +7,16 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "api": "json-server db/db.json --port 3333"
   },
   "dependencies": {
     "bootstrap": "^5.3.8",
+    "nodemon": "^3.1.14",
     "react": "^19.3.1",
-    "react-dom": "^19.3.1"
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.5",
+    "router": "^2.2.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
