@@ -1,3 +1,5 @@
+import '../assets/ProgressSummary.css'
+
 function ProgressSummary({ courses, completed }) {
     const completedCount = courses.filter((course) =>
         completed.includes(course.id)

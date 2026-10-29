@@ -39,11 +39,13 @@ function CourseCard({
             <div className="card-body">
                 <h5 className="card-title">{course.title}</h5>
 
-                <p className="text-muted">
-                    Credits: {course.credits}
+                <p className="card-credits">
+                    {course.credits} credits
                 </p>
 
-                <p className="card-text">{course.description}</p>
+                <p className="card-description">
+                    {course.description}
+                </p>
 
                 <p className="card-text mb-0">
                     <strong>Prerequisites:</strong>{' '}

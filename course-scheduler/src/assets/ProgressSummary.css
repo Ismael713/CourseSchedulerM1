@@ -1,0 +1,149 @@
+.progress-summary {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 28px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.progress-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.progress-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 6px;
+}
+
+.progress-header p {
+    color: #6b7280;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.progress-percentage {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 2rem;
+    font-weight: 800;
+    color: #15803d;
+    white-space: nowrap;
+}
+
+.progress-track {
+    width: 100%;
+    height: 40px;
+    background: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 24px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #22c55e, #15803d);
+    border-radius: 999px;
+    transition: width 0.5s ease-in-out;
+}
+
+.progress-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.progress-stat {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px;
+    background: #f9fafb;
+    border: 1px solid #f0f1f3;
+    border-radius: 12px;
+}
+
+.progress-stat > div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.progress-stat strong {
+    font-size: 1.35rem;
+    line-height: 1.2;
+}
+
+.progress-stat span:not(.stat-dot) {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.stat-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.completed-dot {
+    background: #16a34a;
+}
+
+.available-dot {
+    background: #2563eb;
+}
+
+.locked-dot {
+    background: #9ca3af;
+}
+
+.count-green {
+    color: #15803d;
+}
+
+.count-blue {
+    color: #2563eb;
+}
+
+.count-gray {
+    color: #6b7280;
+}
+
+@media (max-width: 600px) {
+    .progress-summary {
+        padding: 18px;
+    }
+
+    .progress-header h2 {
+        font-size: 1.2rem;
+    }
+
+    .progress-percentage {
+        font-size: 1.6rem;
+    }
+
+    .progress-stats {
+        gap: 8px;
+    }
+
+    .progress-stat {
+        padding: 10px 8px;
+        gap: 6px;
+    }
+
+    .progress-stat strong {
+        font-size: 1.1rem;
+    }
+
+    .progress-stat span:not(.stat-dot) {
+        font-size: 0.75rem;
+    }
+}
