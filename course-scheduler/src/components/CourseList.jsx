@@ -7,10 +7,53 @@ function CourseList() {
     const [completedCourses, setCompletedCourses] = useState([]);
 
     function toggleCompleted(courseId) {
-        setCompletedCourses(previous =>
-            previous.includes(courseId)
-                ? previous.filter(id => id !== courseId)
-                : [...previous, courseId]
+        setCompletedCourses(previous => {
+            // If the course is already completed, uncheck it.
+            if (previous.includes(courseId)) {
+                const remaining = previous.filter(id => id !== courseId);
+
+                // Remove completed courses whose prerequisites
+                // are no longer completed.
+                let updated = remaining;
+                let changed = true;
+
+                while (changed) {
+                    changed = false;
+
+                    updated = updated.filter(id => {
+                        const course = courses.find(
+                            c => Number(c.id) === Number(id)
+                        );
+
+                        if (!course) return false;
+
+                        const prerequisitesMet =
+                            (course.prerequisites ?? []).every(
+                                prereqId => updatedPrerequisiteCheck(
+                                    prereqId, updated
+                                )
+                            );
+
+                        if (!prerequisitesMet) {
+                            changed = true;
+                            return false;
+                        }
+
+                        return true;
+                    });
+                }
+
+                return updated;
+            }
+
+            // Otherwise, mark the course completed.
+            return [...previous, courseId];
+        });
+    }
+
+    function updatedPrerequisiteCheck(prereqId, completedIds) {
+        return completedIds.some(
+            id => Number(id) === Number(prereqId)
         );
     }
     const {

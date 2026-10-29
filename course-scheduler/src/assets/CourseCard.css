@@ -20,9 +20,9 @@
 {
 
 }
-.text-muted mb-2
+.text-muted
 {
-
+    text-color: aquamarine;
 }
 
 .status-badge {

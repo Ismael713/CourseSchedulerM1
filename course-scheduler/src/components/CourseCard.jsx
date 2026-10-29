@@ -39,7 +39,7 @@ function CourseCard({
             <div className="card-body">
                 <h5 className="card-title">{course.title}</h5>
 
-                <p className="text-muted mb-2">
+                <p className="text-muted">
                     Credits: {course.credits}
                 </p>
 
