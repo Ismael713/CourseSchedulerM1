@@ -9,7 +9,7 @@ function App() {
         <>
             <NavBar />
             <div className='container'>
-                <div className='col-md-9'>
+                <div className='col-md-12'>
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/about" element={<AboutPage />} />

@@ -1,0 +1,18 @@
+.course-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 25x;
+    box-sizing: border-box;
+}
+
+.course-list .card {
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    box-sizing: border-box;
+}

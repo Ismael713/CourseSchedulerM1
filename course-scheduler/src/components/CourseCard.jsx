@@ -1,24 +1,70 @@
-function CourseCard({course, prerequisiteNumbers})
-{
-    return (<div className="card h-100 shadow-sm">
-        <div className="card-body">
-            <h5 className="card-title">
-                {course.title}
-            </h5>
 
-            <p className="text-muted mb-2">
-                Credits: {course.credits}
-            </p>
+function CourseCard({
+                        course,
+                        prerequisiteNumbers,
+                        completedCourses = [],
+                        onToggleCompleted
+                    }) {
+    const completed = completedCourses.some(
+        id => Number(id) === Number(course.id)
+    );
 
-            <p className="card-text">
-                {course.description}
-            </p>
+    const prerequisitesMet = (course.prerequisites ?? []).every(
+        prereqId => completedCourses.some(
+            id => Number(id) === Number(prereqId)
+        )
+    );
+    const status = completed
+        ? 'completed'
+        : prerequisitesMet
+            ? 'available'
+            : 'locked';
 
-            <p className="card-text mb-0">
-                <strong>Prerequisites:</strong>{' '}
-                {prerequisiteNumbers.length > 0 ? prerequisiteNumbers.join(', ') : 'None'}
-            </p>
+    return (
+        <div className={`card ${status}`}>
+            <div className="card-header">
+                <h6>{course.number}</h6>
+
+                <span className={`status-badge ${status}`}>
+                    {status === 'completed' ? (
+                        <>✓ COMPLETED</>
+                    ) : status === 'available' ? (
+                        <>🔓 UNLOCKED</>
+                    ) : (
+                        <>🔒 LOCKED</>
+                    )}
+                </span>
+            </div>
+
+            <div className="card-body">
+                <h5 className="card-title">{course.title}</h5>
+
+                <p className="text-muted mb-2">
+                    Credits: {course.credits}
+                </p>
+
+                <p className="card-text">{course.description}</p>
+
+                <p className="card-text mb-0">
+                    <strong>Prerequisites:</strong>{' '}
+                    {prerequisiteNumbers.length > 0
+                        ? prerequisiteNumbers.join(', ')
+                        : 'None'}
+                </p>
+            </div>
+
+            <div className="card-footer">
+                <label>
+                    <input
+                        type="checkbox"
+                        checked={completed}
+                        onChange={() => onToggleCompleted(course.id)}
+                    />{' '}
+                    Completed
+                </label>
+            </div>
         </div>
-    </div>);
+    );
 }
+
 export default CourseCard;

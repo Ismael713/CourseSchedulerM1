@@ -1,66 +1,72 @@
+import '../assets/CourseList.css';
 import useFetch from '../hooks/useFetch';
 import CourseCard from './CourseCard';
+import { useState } from 'react';
 
-function CourseList()
-{
+function CourseList() {
+    const [completedCourses, setCompletedCourses] = useState([]);
+
+    function toggleCompleted(courseId) {
+        setCompletedCourses(previous =>
+            previous.includes(courseId)
+                ? previous.filter(id => id !== courseId)
+                : [...previous, courseId]
+        );
+    }
     const {
-        data: courses, isPending, error
+        data,
+        isPending,
+        error
     } = useFetch('/courses');
 
-    if (isPending)
-    {
-        return (<div className="text-center my-5">
-            <div
-                className="spinner-border text-primary"
-                role="status"
-            >
-                    <span className="visually-hidden">
-                        Loading...
-                    </span>
-            </div>
-            <p className="mt-2">Loading courses...</p>
-        </div>);
+    if (isPending) {
+        return <div>Loading courses...</div>;
     }
 
-    if (error)
-    {
-        return (<div className="alert alert-danger" role="alert">
-            Failed to load courses: {error}
-        </div>);
+    if (error) {
+        return <div>Error loading courses: {error}</div>;
     }
 
-    if (!Array.isArray(courses))
-    {
-        return (<div className="alert alert-warning" role="alert">
-            The course data is not in the expected format.
-        </div>);
+    // Support either an array or an object containing courses.
+    const courses = Array.isArray(data)
+        ? data
+        : data?.courses ?? [];
+
+    if (courses.length === 0) {
+        return <div>No courses found.</div>;
     }
 
-    const coursesById = new Map(courses.map(course => [String(course.id), course]));
+    // Map each course ID to its course number.
+    const courseNumbersById = new Map(
+        courses.map(course => [
+            String(course.id),
+            course.number
+        ])
+    );
 
-    return (<section>
-        <h2 className="mb-4">All Courses</h2>
+    return (
+        <div className="course-list">
+            {courses.map(course => {
+                const prerequisiteNumbers =
+                    (course.prerequisites ?? []).map(
+                        prereqId =>
+                            courseNumbersById.get(
+                                String(prereqId)
+                            ) ?? `Unknown course (${prereqId})`
+                    );
 
-        {courses.length === 0 ? (<p>No courses found.</p>) : (<div className="row g-4">
-            {courses.map(course =>
-            {
-                const prerequisiteNumbers = (course.prerequisites ?? [])
-                    .map(id => coursesById.get(String(id)))
-                    .filter(Boolean)
-                    .map(prerequisite => prerequisite.courseNumber);
-
-                return (<div
-                    className="col-12 col-md-6 col-lg-4"
-                    key={course.id}
-                >
+                return (
                     <CourseCard
+                        key={course.id}
                         course={course}
                         prerequisiteNumbers={prerequisiteNumbers}
+                        completedCourses={completedCourses}
+                        onToggleCompleted={toggleCompleted}
                     />
-                </div>);
+                );
             })}
-        </div>)}
-    </section>);
+        </div>
+    );
 }
 
 export default CourseList;
