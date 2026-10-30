@@ -64,5 +64,8 @@
 .card.completed .card-header{
     background-color: #e8f8ee;
 }
+.card.locked{
+    background-color: lightgray;
+}
 
 

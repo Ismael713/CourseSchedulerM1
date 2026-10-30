@@ -1,10 +1,4 @@
-
-function CourseCard({
-                        course,
-                        prerequisiteNumbers,
-                        completedCourses = [],
-                        onToggleCompleted
-                    }) {
+function CourseCard({course, prerequisiteNumbers, completedCourses = [], onToggleCompleted}) {
     const completed = completedCourses.some(
         id => Number(id) === Number(course.id)
     );
@@ -21,7 +15,8 @@ function CourseCard({
             : 'locked';
 
     return (
-        <div className={`card ${status}`}>
+        <div className= "col">
+        <div className= {`card ${status}`}>
             <div className="card-header">
                 <h6>{course.number}</h6>
 
@@ -29,7 +24,7 @@ function CourseCard({
                     {status === 'completed' ? (
                         <>✓ COMPLETED</>
                     ) : status === 'available' ? (
-                        <>🔓 UNLOCKED</>
+                        <>AVAILABLE</>
                     ) : (
                         <>🔒 LOCKED</>
                     )}
@@ -60,11 +55,16 @@ function CourseCard({
                     <input
                         type="checkbox"
                         checked={completed}
+                        disabled={!prerequisitesMet && !completed}
                         onChange={() => onToggleCompleted(course.id)}
-                    />{' '}
-                    Completed
+                    />
+                    {' '}
+                    {status === 'locked' ?
+                    'Complete Prerequisites First'
+                    : 'Completed'}
                 </label>
             </div>
+        </div>
         </div>
     );
 }
