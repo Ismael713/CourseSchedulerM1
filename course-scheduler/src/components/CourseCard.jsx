@@ -15,7 +15,7 @@ function CourseCard({course, prerequisiteNumbers, completedCourses = [], onToggl
             : 'locked';
 
     return (
-        <div className= "col">
+        <div className= "course-card-wrapper">
         <div className= {`card ${status}`}>
             <div className="card-header">
                 <h6>{course.number}</h6>

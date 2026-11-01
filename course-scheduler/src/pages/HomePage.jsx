@@ -22,19 +22,19 @@ function HomePage()
     }
 
     return (<div>
-            <h1 className="mb-4">Course Scheduler</h1>
+        <h1 className="mb-4">Course Scheduler</h1>
 
-            <ProgressSummary
-                courses={courses}
-                completed={completedCourses}
-            />
+        <ProgressSummary
+            courses={courses}
+            completed={completedCourses}
+        />
 
-            <CourseList
-                courses={courses}
-                completedCourses={completedCourses}
-                setCompletedCourses={setCompletedCourses}
-            />
-        </div>);
+        <CourseList
+            courses={courses}
+            completedCourses={completedCourses}
+            setCompletedCourses={setCompletedCourses}
+        />
+    </div>);
 }
 
 export default HomePage;

@@ -1,56 +1,46 @@
-import CourseCard from "./CourseCard";
+import CourseCard from "./CourseCard.jsx";
+import "../assets/CourseList.css";
 
-function CourseList({courses, completedCourses = [], onToggleCompleted, filter}) {
+function CourseList({ courses, completedCourses, setCompletedCourses }) {
 
-    const filteredCourses = courses.filter(course => {
-        if (filter === "completed") {
-            return completedCourses.some(
-                id => Number(id) === Number(course.id)
+    function toggleCompleted(courseId) {
+        setCompletedCourses(previous => {
+            const isCompleted = previous.some(
+                id => Number(id) === Number(courseId)
             );
-        }
 
-        if (filter === "remaining") {
-            return !completedCourses.some(
-                id => Number(id) === Number(course.id)
-            );
-        }
+            if (isCompleted) {
+                return previous.filter(
+                    id => Number(id) !== Number(courseId)
+                );
+            }
 
-        return true;
-    });
+            return [...previous, courseId];
+        });
+    }
 
     return (
-        <div className="row row-cols-1 row-cols-2 row-cols-3 g-4">
-            {filteredCourses.length === 0 ? (
-                <div className="col-12 text-center">
-                    <p>No courses to display.</p>
-                </div>
-            ) : (
-                filteredCourses.map(course => {
-
-                    // Convert prerequisite IDs into course numbers
-                    const prerequisiteNumbers = (
-                        course.prerequisites ?? []
-                    ).map(id => {
-                        const prerequisiteCourse = courses.find(
-                            c => Number(c.id) === Number(id)
+        <div className="course-list">
+            {courses.map(course => {
+                const prerequisiteNumbers = (course.prerequisites ?? [])
+                    .map(prereqId => {
+                        const prerequisite = courses.find(
+                            c => Number(c.id) === Number(prereqId)
                         );
+                        return prerequisite?.number;
+                    })
+                    .filter(Boolean);
 
-                        return prerequisiteCourse
-                            ? prerequisiteCourse.number
-                            : "Unknown";
-                    });
-
-                    return (
-                        <CourseCard
-                            key={course.id}
-                            course={course}
-                            prerequisiteNumbers={prerequisiteNumbers}
-                            completedCourses={completedCourses}
-                            onToggleCompleted={onToggleCompleted}
-                        />
-                    );
-                })
-            )}
+                return (
+                    <CourseCard
+                        key={course.id}
+                        course={course}
+                        prerequisiteNumbers={prerequisiteNumbers}
+                        completedCourses={completedCourses}
+                        onToggleCompleted={toggleCompleted}
+                    />
+                );
+            })}
         </div>
     );
 }
