@@ -1,31 +1,10 @@
 .progress-summary {
     background: #ffffff;
-    border: 1px solid #e5e7eb;
+    border: 1.5px solid dimgray;
     border-radius: 16px;
     padding: 24px;
     margin-bottom: 28px;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-}
-
-.progress-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: 22px;
-}
-
-.progress-header h2 {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #1f2937;
-    margin: 0 0 6px;
-}
-
-.progress-header p {
-    color: #6b7280;
-    margin: 0;
-    font-size: 1rem;
 }
 
 .progress-percentage {
@@ -34,15 +13,14 @@
     justify-content: space-between;
     font-size: 2rem;
     font-weight: 800;
-    color: #15803d;
     white-space: nowrap;
 }
 
 .progress-track {
     width: 100%;
     height: 40px;
-    background: #e5e7eb;
-    border-radius: 999px;
+    background: whitesmoke;
+    border-radius: 50px;
     overflow: hidden;
     margin-bottom: 24px;
 }
@@ -50,14 +28,14 @@
 .progress-fill {
     height: 100%;
     background: linear-gradient(90deg, #22c55e, #15803d);
-    border-radius: 999px;
+    border-radius: 50px;
     transition: width 0.5s ease-in-out;
 }
 
 .progress-stats {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+    display: flex;
+    justify-content: left;
+    gap: 100px;
 }
 
 .progress-stat {
@@ -66,7 +44,7 @@
     gap: 10px;
     padding: 14px;
     background: #f9fafb;
-    border: 1px solid #f0f1f3;
+    border: 1px solid dimgray;
     border-radius: 12px;
 }
 
@@ -98,7 +76,7 @@
 }
 
 .available-dot {
-    background: #2563eb;
+    background: #25 63eb;
 }
 
 .locked-dot {
@@ -115,35 +93,4 @@
 
 .count-gray {
     color: #6b7280;
-}
-
-@media (max-width: 600px) {
-    .progress-summary {
-        padding: 18px;
-    }
-
-    .progress-header h2 {
-        font-size: 1.2rem;
-    }
-
-    .progress-percentage {
-        font-size: 1.6rem;
-    }
-
-    .progress-stats {
-        gap: 8px;
-    }
-
-    .progress-stat {
-        padding: 10px 8px;
-        gap: 6px;
-    }
-
-    .progress-stat strong {
-        font-size: 1.1rem;
-    }
-
-    .progress-stat span:not(.stat-dot) {
-        font-size: 0.75rem;
-    }
 }
