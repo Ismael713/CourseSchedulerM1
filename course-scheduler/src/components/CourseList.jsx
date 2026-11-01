@@ -1,112 +1,56 @@
-import '../assets/CourseList.css';
-import useFetch from '../hooks/useFetch';
-import CourseCard from './CourseCard';
+import CourseCard from "./CourseCard";
 
-function CourseList({ completedCourses, setCompletedCourses }) {
-    const {
-        data,
-        isPending,
-        error
-    } = useFetch('/courses');
+function CourseList({courses, completedCourses = [], onToggleCompleted, filter}) {
 
-    const courses = Array.isArray(data)
-        ? data
-        : data?.courses ?? [];
-
-    function toggleCompleted(courseId) {
-        setCompletedCourses(previous => {
-            const isAlreadyCompleted = previous.some(
-                id => Number(id) === Number(courseId)
+    const filteredCourses = courses.filter(course => {
+        if (filter === "completed") {
+            return completedCourses.some(
+                id => Number(id) === Number(course.id)
             );
+        }
 
-            // If checked, add the course.
-            if (!isAlreadyCompleted) {
-                return [...previous, courseId];
-            }
-
-            // If unchecked, remove it.
-            let updated = previous.filter(
-                id => Number(id) !== Number(courseId)
+        if (filter === "remaining") {
+            return !completedCourses.some(
+                id => Number(id) === Number(course.id)
             );
+        }
 
-            // Repeatedly remove completed courses whose
-            // prerequisites are no longer completed.
-            let changed = true;
-
-            while (changed) {
-                changed = false;
-
-                const next = updated.filter(id => {
-                    const course = courses.find(
-                        c => Number(c.id) === Number(id)
-                    );
-
-                    if (!course) return false;
-
-                    const prerequisitesMet =
-                        (course.prerequisites ?? []).every(
-                            prereqId => updated.some(
-                                completedId =>
-                                    Number(completedId) ===
-                                    Number(prereqId)
-                            )
-                        );
-
-                    if (!prerequisitesMet) {
-                        changed = true;
-                        return false;
-                    }
-
-                    return true;
-                });
-
-                updated = next;
-            }
-
-            return updated;
-        });
-    }
-
-    if (isPending) {
-        return <div>Loading courses...</div>;
-    }
-
-    if (error) {
-        return <div>Error loading courses: {error}</div>;
-    }
-
-    if (courses.length === 0) {
-        return <div>No courses found.</div>;
-    }
-
-    const courseNumbersById = new Map(
-        courses.map(course => [
-            String(course.id),
-            course.number
-        ])
-    );
+        return true;
+    });
 
     return (
-        <div className="course-list">
-            {courses.map(course => {
-                const prerequisiteNumbers =
-                    (course.prerequisites ?? []).map(
-                        prereqId =>
-                            courseNumbersById.get(
-                                String(prereqId)
-                            ) ?? `Unknown course (${prereqId})`
-                    );
+        <div className="row row-cols-1 row-cols-2 row-cols-3 g-4">
+            {filteredCourses.length === 0 ? (
+                <div className="col-12 text-center">
+                    <p>No courses to display.</p>
+                </div>
+            ) : (
+                filteredCourses.map(course => {
 
-                return (
-                    <CourseCard
-                        key={course.id}
-                        course={course}
-                        prerequisiteNumbers={prerequisiteNumbers}
-                        completedCourses={completedCourses}
-                        onToggleCompleted={toggleCompleted}
-                    />
-                );
-            })}
+                    // Convert prerequisite IDs into course numbers
+                    const prerequisiteNumbers = (
+                        course.prerequisites ?? []
+                    ).map(id => {
+                        const prerequisiteCourse = courses.find(
+                            c => Number(c.id) === Number(id)
+                        );
+
+                        return prerequisiteCourse
+                            ? prerequisiteCourse.number
+                            : "Unknown";
+                    });
+
+                    return (
+                        <CourseCard
+                            key={course.id}
+                            course={course}
+                            prerequisiteNumbers={prerequisiteNumbers}
+                            completedCourses={completedCourses}
+                            onToggleCompleted={onToggleCompleted}
+                        />
+                    );
+                })
+            )}
         </div>
     );
 }
