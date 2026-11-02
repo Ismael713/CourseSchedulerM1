@@ -31,11 +31,17 @@ function ProgressSummary({ courses, completed }) {
 
                 <div className="progress-stat">
                     <strong className="count-green">{completedCount}</strong>
-                    <span>of {courses.length} courses completed</span>
+
+                    <span className="course-count-label">
+                        {' '}of {courses.length} courses
+                    </span>
+
+                    <span> completed</span>
                 </div>
 
                 <div className="progress-stat">
                     <strong className="count-blue">{availableCount}</strong>
+
                     <span>available</span>
                 </div>
 
