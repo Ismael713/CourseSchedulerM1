@@ -1,16 +1,40 @@
 import CourseCard from "./CourseCard.jsx";
 import "../assets/CourseList.css";
 
-function CourseList({ courses, completedCourses, setCompletedCourses }) {
+function CourseList({
+                        courses,
+                        completedCourses,
+                        setCompletedCourses,
+                        courseFilter
+                    }) {
+
+    const filteredCourses = courses.filter(course => {
+        const completed = completedCourses.some(
+            id => Number(id) === Number(course.id)
+        );
+
+        if (courseFilter === 'completed') {
+            return completed;
+        }
+
+        if (courseFilter === 'remaining') {
+            return !completed;
+        }
+
+        return true;
+    });
 
     return (
         <div className="course-list">
-            {courses.map(course => {
-                const prerequisiteNumbers = (course.prerequisites ?? [])
+            {filteredCourses.map(course => {
+                const prerequisiteNumbers = (
+                    course.prerequisites ?? []
+                )
                     .map(prereqId => {
                         const prerequisite = courses.find(
                             c => Number(c.id) === Number(prereqId)
                         );
+
                         return prerequisite?.number;
                     })
                     .filter(Boolean);
@@ -21,7 +45,9 @@ function CourseList({ courses, completedCourses, setCompletedCourses }) {
                         course={course}
                         prerequisiteNumbers={prerequisiteNumbers}
                         completedCourses={completedCourses}
-                        onToggleCompleted={() => setCompletedCourses(course.id)}
+                        onToggleCompleted={() =>
+                            setCompletedCourses(course.id)
+                        }
                     />
                 );
             })}

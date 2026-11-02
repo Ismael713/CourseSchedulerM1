@@ -2,14 +2,14 @@ import {useState} from 'react';
 import useFetch from '../hooks/useFetch';
 import CourseList from '../components/CourseList.jsx';
 import ProgressSummary from '../components/ProgressSummary.jsx';
+import CourseFilter from '../components/CourseFilter.jsx';
 
 function HomePage()
 {
     const [completedCourses, setCompletedCourses] = useState([]);
-
     const {data, isPending, error} = useFetch('/courses');
-
     const courses = Array.isArray(data) ? data : data?.courses ?? [];
+    const [courseFilter, setCourseFilter] = useState('all');
 
     const handleToggleCompleted = (courseId) => {
         setCompletedCourses(current => {
@@ -96,10 +96,16 @@ function HomePage()
             completed={completedCourses}
         />
 
+        <CourseFilter
+            courseFilter={courseFilter}
+            setCourseFilter={setCourseFilter}
+        />
+
         <CourseList
             courses={courses}
             completedCourses={completedCourses}
             setCompletedCourses={handleToggleCompleted}
+            courseFilter={courseFilter}
         />
     </div>);
 }

@@ -1,0 +1,13 @@
+.course-filter {
+    max-width: 300px;
+    padding: 12px 12px 12px 12px;
+}
+
+.course-filter .form-label {
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+.course-filter .form-select {
+    border-radius: 8px;
+}
