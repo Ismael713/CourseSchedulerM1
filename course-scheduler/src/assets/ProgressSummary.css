@@ -2,10 +2,8 @@
     background: #ffffff;
     border: 1px solid #e5e7eb;
     border-radius: 16px;
-    margin-left: 10px;
-    margin-right: 10px;
-    padding: 24px;
-    margin-bottom: 12px;
+    margin: 10px 12px 10px 12px;
+    padding: 15px 20px 10px 20px;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
 }
 
@@ -71,11 +69,12 @@
 
 .progress-stat {
     display: flex;
-    gap: 10px;
+    align-items: end;
+    gap: 5px;
 }
 
 .progress-stat strong {
-    font-size: 1.35rem;
+    font-size: 1.5rem;
     line-height: 1.2;
 }
 

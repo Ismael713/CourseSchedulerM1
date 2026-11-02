@@ -103,19 +103,17 @@ function HomePage()
                 setCourseFilter={setCourseFilter}
             />
 
-
-
             <div className="save-container">
                 {saveNotice && (
                     <span className="save-notice">
-                Progress saved!
-            </span>)}
+                        Progress saved!
+                    </span>)}
 
                 <button
                     className="save-button"
                     onClick={handleSave}
                 >
-                    <span>✓</span> Save Progress
+                    Save Progress
                 </button>
             </div>
         </div>
