@@ -11,6 +11,73 @@ function HomePage()
 
     const courses = Array.isArray(data) ? data : data?.courses ?? [];
 
+    const handleToggleCompleted = (courseId) => {
+        setCompletedCourses(current => {
+            const id = Number(courseId);
+
+            const isCompleted = current.some(
+                completedId => Number(completedId) === id
+            );
+
+            // If already completed, deselect it and all dependents
+            if (isCompleted) {
+                const toRemove = new Set([id]);
+
+                let changed = true;
+
+                // Continues until all dependent courses are found
+                while (changed) {
+                    changed = false;
+
+                    courses.forEach(course => {
+                        const courseId = Number(course.id);
+
+                        const dependsOnRemoved = (
+                            course.prerequisites ?? []
+                        ).some(prereqId =>
+                            toRemove.has(Number(prereqId))
+                        );
+
+                        if (
+                            dependsOnRemoved &&
+                            !toRemove.has(courseId)
+                        ) {
+                            toRemove.add(courseId);
+                            changed = true;
+                        }
+                    });
+                }
+
+                return current.filter(
+                    completedId => !toRemove.has(Number(completedId))
+                );
+            }
+
+            // Checks that every prerequisite is completed
+            const course = courses.find(
+                course => Number(course.id) === id
+            );
+
+            if (!course) return current;
+
+            const prerequisitesMet = (
+                course.prerequisites ?? []
+            ).every(prereqId =>
+                current.some(
+                    completedId =>
+                        Number(completedId) === Number(prereqId)
+                )
+            );
+
+            // Prevents completion if prerequisites are missing
+            if (!prerequisitesMet) {
+                return current;
+            }
+
+            return [...current, id];
+        });
+    };
+
     if (isPending)
     {
         return <div>Loading courses...</div>;
@@ -32,7 +99,7 @@ function HomePage()
         <CourseList
             courses={courses}
             completedCourses={completedCourses}
-            setCompletedCourses={setCompletedCourses}
+            setCompletedCourses={handleToggleCompleted}
         />
     </div>);
 }

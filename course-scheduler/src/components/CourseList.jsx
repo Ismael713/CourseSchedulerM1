@@ -3,22 +3,6 @@ import "../assets/CourseList.css";
 
 function CourseList({ courses, completedCourses, setCompletedCourses }) {
 
-    function toggleCompleted(courseId) {
-        setCompletedCourses(previous => {
-            const isCompleted = previous.some(
-                id => Number(id) === Number(courseId)
-            );
-
-            if (isCompleted) {
-                return previous.filter(
-                    id => Number(id) !== Number(courseId)
-                );
-            }
-
-            return [...previous, courseId];
-        });
-    }
-
     return (
         <div className="course-list">
             {courses.map(course => {
@@ -37,7 +21,7 @@ function CourseList({ courses, completedCourses, setCompletedCourses }) {
                         course={course}
                         prerequisiteNumbers={prerequisiteNumbers}
                         completedCourses={completedCourses}
-                        onToggleCompleted={toggleCompleted}
+                        onToggleCompleted={() => setCompletedCourses(course.id)}
                     />
                 );
             })}

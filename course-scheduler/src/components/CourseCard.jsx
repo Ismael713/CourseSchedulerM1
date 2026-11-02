@@ -59,9 +59,11 @@ function CourseCard({course, prerequisiteNumbers, completedCourses = [], onToggl
                         onChange={() => onToggleCompleted(course.id)}
                     />
                     {' '}
-                    {status === 'locked' ?
-                    'Complete Prerequisites First'
-                    : 'Completed'}
+                    {completed
+                        ? 'Completed'
+                        : status === 'locked'
+                            ? 'Complete Prerequisites First'
+                            : 'Mark as Completed'}
                 </label>
             </div>
         </div>
