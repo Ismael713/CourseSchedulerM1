@@ -1,33 +1,23 @@
-function CourseCard({course, prerequisiteNumbers, completedCourses = [], onToggleCompleted}) {
-    const completed = completedCourses.some(
-        id => Number(id) === Number(course.id)
-    );
+function CourseCard({
+                        course,
+                        prerequisiteNumbers,
+                        completedCourses = [],
+                        onToggleCompleted
+                    })
+{
+    const completed = completedCourses.some(id => Number(id) === Number(course.id));
 
-    const prerequisitesMet = (course.prerequisites ?? []).every(
-        prereqId => completedCourses.some(
-            id => Number(id) === Number(prereqId)
-        )
-    );
-    const status = completed
-        ? 'completed'
-        : prerequisitesMet
-            ? 'available'
-            : 'locked';
+    const prerequisitesMet = (course.prerequisites ?? []).every(prereqId => completedCourses.some(id => Number(id) === Number(prereqId)));
+    const status = completed ? 'completed' : prerequisitesMet ? 'available' : 'locked';
 
-    return (
-        <div className= "course-card-wrapper">
-        <div className= {`card ${status}`}>
+    return (<div className="course-card-wrapper">
+        <div className={`card ${status}`}>
             <div className="card-header">
                 <h6>{course.number}</h6>
 
                 <span className={`status-badge ${status}`}>
-                    {status === 'completed' ? (
-                        <>✓ COMPLETED</>
-                    ) : status === 'available' ? (
-                        <>AVAILABLE</>
-                    ) : (
-                        <>🔒 LOCKED</>
-                    )}
+                    {status === 'completed' ? (<>✓ COMPLETED</>) : status === 'available' ? (<>AVAILABLE</>) : (<>🔒
+                        LOCKED</>)}
                 </span>
             </div>
 
@@ -44,9 +34,7 @@ function CourseCard({course, prerequisiteNumbers, completedCourses = [], onToggl
 
                 <p className="card-text mb-0">
                     <strong>Prerequisites:</strong>{' '}
-                    {prerequisiteNumbers.length > 0
-                        ? prerequisiteNumbers.join(', ')
-                        : 'None'}
+                    {prerequisiteNumbers.length > 0 ? prerequisiteNumbers.join(', ') : 'None'}
                 </p>
             </div>
 
@@ -59,16 +47,11 @@ function CourseCard({course, prerequisiteNumbers, completedCourses = [], onToggl
                         onChange={() => onToggleCompleted(course.id)}
                     />
                     {' '}
-                    {completed
-                        ? 'Completed'
-                        : status === 'locked'
-                            ? 'Complete Prerequisites First'
-                            : 'Mark as Completed'}
+                    {completed ? 'Completed' : status === 'locked' ? 'Complete Prerequisites First' : 'Mark as Completed'}
                 </label>
             </div>
         </div>
-        </div>
-    );
+    </div>);
 }
 
 export default CourseCard;
