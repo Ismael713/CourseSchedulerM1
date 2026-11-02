@@ -21,7 +21,7 @@ function AboutPage() {
                     <tbody>
                     <tr>
                         <td className = "about-section"><strong>Author(s)</strong></td>
-                        <td className = "about-data" >Ismael Barrera &amp; Partner Two</td>
+                        <td className = "about-data" >Ismael Barrera &amp; Meier Glab</td>
                     </tr>
 
                     <tr>

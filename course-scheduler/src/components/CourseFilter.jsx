@@ -1,21 +1,28 @@
 import "../assets/CourseFilter.css";
+
 function CourseFilter({ courseFilter, setCourseFilter }) {
     return (
-        <div className="course-filter mb-3">
-            <label htmlFor="courseFilter" className="form-label">
-                Filter Courses:
-            </label>
-
-            <select
-                id="courseFilter"
-                className="form-select"
-                value={courseFilter}
-                onChange={(e) => setCourseFilter(e.target.value)}
+        <div className="course-filter">
+            <button
+                className={courseFilter === 'all' ? 'active' : ''}
+                onClick={() => setCourseFilter('all')}
             >
-                <option value="all">All Courses</option>
-                <option value="completed">Completed Only</option>
-                <option value="remaining">Remaining</option>
-            </select>
+                All Courses
+            </button>
+
+            <button
+                className={courseFilter === 'completed' ? 'active' : ''}
+                onClick={() => setCourseFilter('completed')}
+            >
+                Completed Only
+            </button>
+
+            <button
+                className={courseFilter === 'remaining' ? 'active' : ''}
+                onClick={() => setCourseFilter('remaining')}
+            >
+                Remaining
+            </button>
         </div>
     );
 }
