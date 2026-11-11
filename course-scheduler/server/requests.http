@@ -1,0 +1,11 @@
+@baseUrl = http://localhost:3000
+
+### 1. GET all courses
+GET {{baseUrl}}/api/courses
+
+### 2. GET one course
+GET {{baseUrl}}/api/courses/1
+
+
+
+
