@@ -11,7 +11,7 @@ function HomePage()
 
         return savedCourses ? JSON.parse(savedCourses) : [];
     });
-    const {data, isPending, error} = useFetch('/courses');
+    const {data, isPending, error} = useFetch('/api/courses');
     const courses = Array.isArray(data) ? data : data?.courses ?? [];
     const [courseFilter, setCourseFilter] = useState('all');
     const [saveNotice, setSaveNotice] = useState(false);

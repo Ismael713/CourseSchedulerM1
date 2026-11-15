@@ -31,7 +31,7 @@ function AboutPage() {
 
                     <tr>
                         <td className = "about-section"><strong>Version</strong></td>
-                        <td className = "about-data">1.0.0</td>
+                        <td className = "about-data">2.0.0</td>
                     </tr>
                     </tbody>
                 </table>

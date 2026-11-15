@@ -1,8 +1,8 @@
 function validateCourse(body) {
-    const { number, title, credits, description } = body
+    const { number, title, credits, description} = body
 
-    if (!number || !title) {
-        return 'course number and title are required'
+    if (!number || !title || !credits) {
+        return 'course number, title, and credits are required'
     }
     if (!credits || isNaN(parseInt(credits))) {
         return 'credits must be a whole number'
