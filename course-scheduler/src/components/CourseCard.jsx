@@ -1,13 +1,25 @@
-function CourseCard({course, prerequisiteNumbers, completedCourses = [], onToggleCompleted}) {
+
+function CourseCard({ course, courses = [], completedCourses = [], onToggleCompleted }) {
     const completed = completedCourses.some(
         id => Number(id) === Number(course.id)
     );
 
-    const prerequisitesMet = (course.prerequisites ?? []).every(
+    const prerequisites = course.prerequisites ?? [];
+
+    const prerequisiteNumbers = prerequisites.map(prereqId => {
+        const prerequisite = courses.find(
+            c => Number(c.id) === Number(prereqId)
+        );
+
+        return prerequisite ? prerequisite.number : prereqId;
+    });
+
+    const prerequisitesMet = prerequisites.every(
         prereqId => completedCourses.some(
             id => Number(id) === Number(prereqId)
         )
     );
+
     const status = completed
         ? 'completed'
         : prerequisitesMet
@@ -15,58 +27,56 @@ function CourseCard({course, prerequisiteNumbers, completedCourses = [], onToggl
             : 'locked';
 
     return (
-        <div className= "course-card-wrapper">
-        <div className= {`card ${status}`}>
-            <div className="card-header">
-                <h6>{course.number}</h6>
+        <div className="course-card-wrapper">
+            <div className={`card ${status}`}>
+                <div className="card-header">
+                    <h6>{course.number}</h6>
 
-                <span className={`status-badge ${status}`}>
-                    {status === 'completed' ? (
-                        <>✓ COMPLETED</>
-                    ) : status === 'available' ? (
-                        <>AVAILABLE</>
-                    ) : (
-                        <>🔒 LOCKED</>
-                    )}
-                </span>
+                    <span className={`status-badge ${status}`}>
+                        {status === 'completed'
+                            ? '✓ COMPLETED'
+                            : status === 'available'
+                                ? 'AVAILABLE'
+                                : '🔒 LOCKED'}
+                    </span>
+                </div>
+
+                <div className="card-body">
+                    <h5 className="card-title">{course.title}</h5>
+
+                    <p className="card-credits">
+                        {course.credits} credits
+                    </p>
+
+                    <p className="card-description">
+                        {course.description}
+                    </p>
+
+                    <p className="card-text mb-0">
+                        <strong>Prerequisites:</strong>{' '}
+                        {prerequisiteNumbers.length > 0
+                            ? prerequisiteNumbers.join(', ')
+                            : 'None'}
+                    </p>
+                </div>
+
+                <div className="card-footer">
+                    <label>
+                        <input
+                            type="checkbox"
+                            checked={completed}
+                            disabled={!prerequisitesMet && !completed}
+                            onChange={() => onToggleCompleted(course.id)}
+                        />
+                        {' '}
+                        {completed
+                            ? 'Completed'
+                            : status === 'locked'
+                                ? 'Complete Prerequisites First'
+                                : 'Mark as Completed'}
+                    </label>
+                </div>
             </div>
-
-            <div className="card-body">
-                <h5 className="card-title">{course.title}</h5>
-
-                <p className="card-credits">
-                    {course.credits} credits
-                </p>
-
-                <p className="card-description">
-                    {course.description}
-                </p>
-
-                <p className="card-text mb-0">
-                    <strong>Prerequisites:</strong>{' '}
-                    {prerequisiteNumbers.length > 0
-                        ? prerequisiteNumbers.join(', ')
-                        : 'None'}
-                </p>
-            </div>
-
-            <div className="card-footer">
-                <label>
-                    <input
-                        type="checkbox"
-                        checked={completed}
-                        disabled={!prerequisitesMet && !completed}
-                        onChange={() => onToggleCompleted(course.id)}
-                    />
-                    {' '}
-                    {completed
-                        ? 'Completed'
-                        : status === 'locked'
-                            ? 'Complete Prerequisites First'
-                            : 'Mark as Completed'}
-                </label>
-            </div>
-        </div>
         </div>
     );
 }

@@ -3,6 +3,8 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const coursesRouter = require('./routes/courses')
+const completionsRouter = require('./routes/completions')
+
 
 const app = express()
 
@@ -16,6 +18,7 @@ if (process.env.LOG_REQUESTS === 'true') {
 }
 
 app.use('/api', coursesRouter)
+app.use('/api', completionsRouter)
 
 app.use((req, res) => {
     res.status(404).json({ error: 'Route not found' })

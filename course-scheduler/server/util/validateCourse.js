@@ -16,4 +16,4 @@ function validateCourse(body) {
     return null   // null means valid
 }
 
-export default validateCourse
+module.exports = validateCourse

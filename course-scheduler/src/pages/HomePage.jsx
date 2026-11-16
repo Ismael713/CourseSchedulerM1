@@ -33,37 +33,35 @@ function HomePage()
     const [courseFilter, setCourseFilter] = useState('all');
     const [saveNotice, setSaveNotice] = useState('');
 
-    const handleSave = async () =>
-    {
-        try
-        {
+
+    const handleSave = async () => {
+        try {
             setSaveNotice('');
 
-            const response = await fetch(`/api/completions`,
-                {
-                    method: 'PUT',
-                    headers:
-                        {
-                            'Content-Type': 'application/json'
-                        },
-                    body: JSON.stringify(completedCourses)
-                });
+            const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
+            const response = await fetch(`${baseUrl}/api/completions`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(completedCourses)
+            });
 
             const result = await response.json();
 
-            if (!response.ok)
-            {
+            if (!response.ok) {
                 throw new Error(result.error || 'Failed to save progress.');
             }
 
             setCompletedCourses(result);
             setSaveNotice('Progress saved successfully!');
         }
-        catch (err)
-        {
+        catch (err) {
             setSaveNotice(`Error: ${err.message}`);
         }
     };
+
 
     const handleToggleCompleted = (courseId) =>
     {

@@ -1,3 +1,4 @@
+/* global require, module */
 const express = require('express')
 const router = express.Router()
 const pool = require('../util/database')
@@ -9,6 +10,7 @@ router.get('/courses', async (req, res) => {
         const courses = await getCoursesWithPrereqs(pool);
         res.json(courses);
     } catch (err) {
+        console.error('GET COURSES ERROR:', err);
         res.status(500).json({ error: err.message });
     }
 });
