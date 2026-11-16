@@ -34,20 +34,20 @@ Content-Type: application/json
 DELETE {{baseUrl}}/api/courses/9
 
 ### 6. GET completed courses -- expect 200
-GET {{baseUrl}}/completions
+GET {{baseUrl}}/api/completions
 
 
 ### 7. PUT -- save completed courses -- expect 200
-PUT {{baseUrl}}/completions
+PUT {{baseUrl}}/api/completions
 Content-Type: application/json
 
 [1, 3, 2]
 
 ### 8. GET a course that doesn't exist -- expect 404
-GET {{baseUrl}}/courses/999
+GET {{baseUrl}}/api/courses/999
 
 ### 9.POST a course with missing course info -- expect 400
-POST {{baseUrl}}/courses
+POST {{baseUrl}}/api/courses
 Content-Type: application/json
 
 {
@@ -56,8 +56,7 @@ Content-Type: application/json
 }
 
 ### 10. PUT a course as completed without completed prerequisites -- expect 400
-### Test 400 prerequisite validation
-PUT {{baseUrl}}/completions
+PUT {{baseUrl}}/api/completions
 Content-Type: application/json
 
 [10]
