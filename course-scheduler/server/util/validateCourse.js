@@ -13,7 +13,7 @@ function validateCourse(body) {
     if (!description) {
         return 'course description is required'
     }
-    return null   // null means valid
+    return null
 }
 
 module.exports = validateCourse

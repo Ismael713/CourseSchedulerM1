@@ -120,19 +120,11 @@ router.put('/courses/:id', async (req, res) => {
 router.delete('/courses/:id', async (req, res) => {
     try {
         const id = Number(req.params.id);
-
-        // Fetch the course before deleting it
         const course = await getCoursesWithPrereqs(pool, id);
-
         if (!course) {
             return res.status(404).json({ error: 'Course not found' });
         }
-
-        await pool.query(
-            'DELETE FROM courses WHERE id = ?',
-            [id]
-        );
-
+        await pool.query('DELETE FROM courses WHERE id = ?', [id]);
         res.json(course);
     } catch (err) {
         res.status(500).json({ error: err.message });
